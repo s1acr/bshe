@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="/cesium/Widgets/widgets.css">
+  <script src="/cesium/Cesium.js"></script>
+
+  <meta charset="UTF-8">
+  <link rel="icon" href="/assets/images/favicon2.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 修改Referrer策略以解决天地图API 403错误 -->
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <!-- SEO元标签 -->
+  <meta name="description" content="毕业设计,基于CesiumJS的Web空间数据可视化平台">
+  <meta name="keywords" content="CesiumJS,WebGL,地图,flyanti,slacr,空间数据可视化,模拟飞行,毕业设计">
+  <title>FlyAnti - 基于CesiumJS的Web空间数据可视化平台</title>
+
+  <!-- 添加事件监听器补丁 - 解决非被动事件监听器警告 -->
+  <script>
+    (function () {
+      // 保存原始的addEventListener方法
+      const originalAddEventListener = EventTarget.prototype.addEventListener;
+
+      // 需要设置为passive的事件类型
+      const passiveEvents = ['touchstart', 'touchmove', 'mousewheel', 'wheel'];
+
+      // 重写addEventListener方法
+      EventTarget.prototype.addEventListener = function (type, listener, options) {
+        let newOptions = options;
+
+        // 检查是否是我们要处理的事件类型
+        if (passiveEvents.includes(type)) {
+          // 如果options是布尔值(useCapture)，则转换为对象
+          if (typeof options === 'boolean') {
+            newOptions = {
+              capture: options,
+              passive: true
+            };
+          }
+          // 如果options是对象但没有明确设置passive属性
+          else if (typeof options === 'object' && options !== null && options.passive === undefined) {
+            newOptions = Object.assign({}, options, { passive: true });
+          }
+        }
+
+        // 调用原始方法
+        return originalAddEventListener.call(this, type, listener, newOptions);
+      };
+    })();
+  </script>
+
+  <!-- 同时使用CDN和NPM包引入Cesium (混合模式以兼容鼠标事件) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cesium@1.120.0/Build/Cesium/Widgets/widgets.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/cesium@1.120.0/Build/Cesium/Cesium.min.js"></script>
+  <script type="module" crossorigin src="/js/main.DRhrxRch.js"></script>
+  <link rel="modulepreload" crossorigin href="/js/vendor_vue.CdXht13z.js">
+  <link rel="modulepreload" crossorigin href="/js/vendor.DRqYSd7Y.js">
+  <link rel="modulepreload" crossorigin href="/js/vendor_element.CWamTeH_.js">
+  <link rel="stylesheet" crossorigin href="/assets/vendor_element.D8Z6BcFZ.css">
+  <link rel="stylesheet" crossorigin href="/assets/main.Dk3BhWTI.css">
+</head>
+
+<body>
+  <div id="app"></div>
+</body>
+
+</html>
